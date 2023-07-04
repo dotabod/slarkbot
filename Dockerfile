@@ -1,17 +1,18 @@
-# Use an official Python runtime as the base image
-FROM python:3.9-slim
+FROM python:3.9
 
-# Set the working directory in the container
 WORKDIR /app
 
-# Copy the dependencies file to the working directory
+# Install PostgreSQL client library and development files
+RUN apt-get update && apt-get install -y libpq-dev
+
+# Copy requirements.txt file to the working directory
 COPY requirements.txt .
 
-# Install the dependencies
+# Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the content of the local src directory to the working directory
-COPY src/ .
+# Copy the rest of your application files
+COPY . .
 
-# Set the command to run the application
-CMD [ "python", "./app.py" ]
+# Set the entry point or command to run your application
+CMD [ "python", "app.py" ]
