@@ -7,18 +7,8 @@ The `docs` directory contains some handy documentation for various purposes.
 
 ## Prerequisites
  - Python 3.6+
- - A PostgreSQL install with the server running or docker and docker-compose
  - A Telegram account and steam account (to test your changes)
  - BeautifulSoup may give issues. You may need to install the system package alongside the virtualenv dependency. There is a package named `bs4` that may also need to be installed with `pip`.
-
-## Local Development
- - No OpenDota api key needed, however rate limits apply
- - Api documentation can be found [here](https://docs.opendota.com/#)
- - A Steam API key is required and can be found [here](https://steamcommunity.com/dev/apikey)
- - Create a bot using @BotFather in telegram to use for local development. Use the bot token in your .env file to test the bot by yourself.
-
-### Windows Users
- - It is STRONGLY encouraged to use a linux like environment. Contributors on Windows systems use Windows subsystem for Linux (WSL).
 
 ## Installation & Environment Configuration
  - Clone or fork the repository and cd into the project root.
@@ -48,25 +38,7 @@ Usage for these scripts are as follows:
  - `POSTGRES_DB` :: Name of the dockerized postgres database
  - `SLARKBOT_VERSION` :: The current semantic version of slarkbot
 
-
 ## Running the Database
-### With Docker-compose
-This option creates a postgres database in a dockerized container. Requires docker desktop
- - Run `docker-compose up -d` to bring up the container.
- - Use `docker-compose down` to stop the database server.
-
-NOTE: If you already have a PostgreSQL server, you should utilize a different port. If you
-have trouble connecting to the container, it uses 5433 rather than the default 5432. Double
-check your connection info!
-
-### With Standard PostgreSQL Server
- - Run `./scripts/standup_db.sh` from root of project directory
-
-Use `./scripts/drop_db.sh` at any time to remove the database. This does not remove the docker volume.
-
-To connect and use the database, it is recommended to use DBeaver. Add a new connection and enter your connection info from your .env file.
-
-If you are using the `psql` command line utility, be sure to specify the host, port, user, database name flags and set the PGPASSWORD environment variable. Check the `scripts` directory for examples of the structure of these commands.
 
 ### Seeding Data
  - `./scripts/seed.py` will seed hero and alias data into the slarkbot database.
