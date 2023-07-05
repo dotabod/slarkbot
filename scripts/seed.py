@@ -11,6 +11,7 @@ from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
 
 DATABASE_NAME = os.getenv("POSTGRES_DB")
+POSTGRES_HOST = os.getenv("POSTGRES_HOST")
 USER = os.getenv("POSTGRES_USER")
 PASSWORD = os.getenv("POSTGRES_PASSWORD")
 PORT = os.getenv("DATABASE_PORT")
@@ -53,7 +54,7 @@ def main():
         new_item = {"id": item_data["id"], "item_name": display_name.lower()}
         all_items.append(new_item)
 
-    conn_url = f"postgres://{USER}:{PASSWORD}@localhost:{PORT}/{DATABASE_NAME}"
+    conn_url = f"postgres://{USER}:{PASSWORD}@{POSTGRES_HOST}:{PORT}/{DATABASE_NAME}"
     conn = psycopg2.connect(conn_url)
     conn.autocommit = True
 
