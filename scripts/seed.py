@@ -65,6 +65,12 @@ def main():
         cursor.execute("DROP TABLE IF EXISTS heroes;")
         cursor.execute("DROP TABLE IF EXISTS items;")
 
+        # Run rebuild_constants.sql
+        print(f"{GREEN}RUNNING rebuild_constants.sql{ENDC}")
+        with open("scripts/rebuild_constants.sql", "r") as sql_file:
+            sql_statements = sql_file.read()
+            cursor.execute(sql_statements)
+
         print(f"{GREEN}SEEDING HEROES{ENDC}")
         psycopg2.extras.execute_batch(
             cursor,

@@ -1,7 +1,6 @@
-
-\c :db_name
-
-DROP TABLE heroes, hero_aliases, items;
+DROP TABLE IF EXISTS hero_aliases;
+DROP TABLE IF EXISTS heroes;
+DROP TABLE IF EXISTS items;
 
 CREATE TABLE heroes (
     id INT PRIMARY KEY UNIQUE,
