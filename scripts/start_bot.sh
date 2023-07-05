@@ -1,13 +1,27 @@
 #!/bin/bash
 
-echo "pulling"
-git pull
+source .env
 
-echo "activating venv"
-source venv/bin/activate
+CONTAINER_NAME="dotabros"
 
-echo "installing dependencies"
-pip install -r requirements.txt
+# Check if the container already exists
+if [[ $(docker ps -aq -f name=$CONTAINER_NAME) ]]; then
+  # Stop the existing container
+  docker stop $CONTAINER_NAME
 
-echo "starting bot"
-./main.py
+  # Remove the existing container
+  docker rm $CONTAINER_NAME
+fi
+
+docker build \
+  --build-arg OPEN_DOTA_API_BASE_URL="$OPEN_DOTA_API_BASE_URL" \
+  --build-arg LOG_LEVEL="$LOG_LEVEL" \
+  --build-arg TELEGRAM_BOT_TOKEN="$TELEGRAM_BOT_TOKEN" \
+  --build-arg POSTGRES_USER="$POSTGRES_USER" \
+  --build-arg POSTGRES_PASSWORD="$POSTGRES_PASSWORD" \
+  --build-arg POSTGRES_DB="$POSTGRES_DB" \
+  --build-arg POSTGRES_HOST="$POSTGRES_HOST" \
+  --build-arg SLARKBOT_VERSION="$SLARKBOT_VERSION" \
+  -t $CONTAINER_NAME .
+
+docker run -d --name $CONTAINER_NAME $CONTAINER_NAME
