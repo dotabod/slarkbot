@@ -74,8 +74,8 @@ def create_match_message(match_data):
     start_date = helpers.convert_timestamp_to_datetime(match.start_time)
 
     output_message = f"{game_mode} ∙ {lobby_type} ∙ {start_date}\n"
-    output_message += f"*{hero_name}* ∙ {kda} ∙ {gpm} GPM ∙ {xpm} XPM \n"
-    output_message += f"*{result_string}* in {duration}"
+    output_message += f"{hero_name} ∙ {kda} ∙ {gpm} GPM ∙ {xpm} XPM\n"
+    output_message += f"{result_string} in {duration}"
 
     return output_message
 
