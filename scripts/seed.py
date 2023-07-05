@@ -28,8 +28,9 @@ def read_json(path):
 
 def main():
     print(f"{GREEN}READING CONSTANT DATA{ENDC}")
-    heroes_url = "https://api.opendota.com/api/constants/heroes"
-    items_url = "https://api.opendota.com/api/constants/items"
+    API_URL = os.getenv("OPEN_DOTA_API_BASE_URL")
+    heroes_url = f"{API_URL}/constants/heroes"
+    items_url = f"{API_URL}/constants/items"
 
     heroes_response = requests.get(heroes_url)
     items_response = requests.get(items_url)
