@@ -4,11 +4,11 @@ import re
 def feel_bad(update, context):
     text = update.message.text
     text_options = [
-        "fuck you slarkbot",
-        "fuck slarkbot",
-        "shut up slarkbot",
-        "shut the fuck up slarkbot",
-        "bad slarkbot",
+        "fuck you pudgebot",
+        "fuck pudgebot",
+        "shut up pudgebot",
+        "shut the fuck up pudgebot",
+        "bad pudgebot",
     ]
     text = re.sub(r"[^\w\s]", "", text)
     text = re.sub(" +", " ", text)

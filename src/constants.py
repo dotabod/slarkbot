@@ -20,14 +20,14 @@ HELP_TEXT = """
     *Commands*
     `\/register <your id here>` :: Register your telegram handle to your steam id to use other commands\. Examples: `\/register 55678920`, `\/register tradeless`, `\/register https:\/\/steamcommunity\.com\/profiles\/76561198073221358`\n
     `\/help` :: Display this help message\n
-    `\/matchdata` :: Explains how to expose match data in the game and sync it to Opendota, where Slarkbot gets its data from\n
+    `\/matchdata` :: Explains how to expose match data in the game and sync it to Opendota, where pudgebot gets its data from\n
     `\/recents <user:optional> <limit:optional>` :: Look up someone's most recent matches\. Defaults to 5 if limit is not defined and to you if user is not defined\. Must have account id registered using `/register`\. Example :: `\/recents`, `\/recents 10` for 10 most recent matches, `\/recents danvb` for Daniel's last games, `\/recents 20 KittyKirov` for Kirov's last 20 games\n
     `\/lastmatch <user:optional> <hero:optional>` :: Gets the last match someone played\. Defaults to you if no argument is given\. If a hero name is given, shows the last match that user played with that hero\. User must be registered for this to work \n
     `\/rank <user:optional>` :: Gets a user's current medal\. Defaults to you if no argument is given\. User must be registered for this to work \n
     `\/winrate <user:optional> <hero name>` :: Gets your or someone else's winrate with the given hero\. User must be registered for this to work\n
     """
 
-EXPOSE_DATA_TEXT_PART_ONE = "If you have registered with Slarkbot but your matches are not showing up, check whether your match data is exposed and whether Opendota has synced up\. To do this, follow these steps:"
+EXPOSE_DATA_TEXT_PART_ONE = "If you have registered with pudgebot but your matches are not showing up, check whether your match data is exposed and whether Opendota has synced up\. To do this, follow these steps:"
 EXPOSE_DATA_TEXT_PART_TWO = """
 *Step one:* Expose your match data in Dota\'s settings, under Social\.\n
 *Step two:* Go to opendota\.com in your browser and log in with your Steam account\.

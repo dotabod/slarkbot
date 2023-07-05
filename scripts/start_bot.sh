@@ -21,7 +21,7 @@ docker build \
   --build-arg POSTGRES_PASSWORD="$POSTGRES_PASSWORD" \
   --build-arg POSTGRES_DB="$POSTGRES_DB" \
   --build-arg POSTGRES_HOST="$POSTGRES_HOST" \
-  --build-arg SLARKBOT_VERSION="$SLARKBOT_VERSION" \
+  --build-arg PUDGEBOT_VERSION="$PUDGEBOT_VERSION" \
   -t $CONTAINER_NAME .
 
 docker run -d --name $CONTAINER_NAME $CONTAINER_NAME

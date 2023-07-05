@@ -4,7 +4,7 @@ from telegram.utils.helpers import escape_markdown
 
 
 def run_changes_command(update, context):
-    version = os.getenv("SLARKBOT_VERSION")
+    version = os.getenv("PUDGEBOT_VERSION")
     root_dir = os.getenv("ROOT_DIR")
 
     file_name = f"{version}-CHANGELOG.md"

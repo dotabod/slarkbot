@@ -4,10 +4,10 @@ import re
 def say_youre_welcome(update, context):
     text = update.message.text
     text_options = [
-        "thanks slarkbot",
-        "thank you slarkbot",
-        "thanksies slarkbot",
-        "thamks slarkbot",
+        "thanks pudgebot",
+        "thank you pudgebot",
+        "thanksies pudgebot",
+        "thamks pudgebot",
     ]
     text = re.sub(r"[^\w\s]", "", text)
     text = re.sub(" +", " ", text)
