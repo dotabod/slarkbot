@@ -45,8 +45,8 @@ def run_last_match_command(update, context):
     try:
         output_message = match_helpers.create_match_message(response[0])
         button = InlineKeyboardButton(
-            "Full match details",
-            callback_data=("match " + str(response[0]["match_id"])),
+            "View on stratz",
+            url=("https://stratz.com/matches/" + str(response[0]["match_id"])),
         )
         markup = InlineKeyboardMarkup.from_button(button)
         update.message.reply_markdown_v2(output_message, reply_markup=markup)
