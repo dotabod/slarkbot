@@ -22,7 +22,7 @@ def try_get_hero_name(hero):
     try:
         hero_name = hero.localized_name
     except:
-        hero_name = "Unknown Hero"
+        hero_name = "Unkown Hero"
     return hero_name
 
 
