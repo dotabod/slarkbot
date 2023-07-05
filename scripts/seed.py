@@ -49,6 +49,7 @@ def main():
                 "localized_name": hero_obj["localized_name"],
                 "primary_attr": hero_obj["primary_attr"],
                 "roles": hero_obj["roles"],
+                "img": hero_obj["img"],
             }
         )
 
@@ -90,6 +91,7 @@ def main():
                 %(localized_name)s,
                 %(primary_attr)s,
                 %(roles)s
+                %(img)s
             ) ON CONFLICT DO NOTHING;
             """,
             all_heroes,
