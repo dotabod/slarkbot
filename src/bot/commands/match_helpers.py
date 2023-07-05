@@ -71,7 +71,7 @@ def create_match_message(match_data):
     game_mode = constants.GAME_MODE_MAP[match.game_mode]
     lobby_type = constants.LOBBY_TYPE_MAP[match.lobby_type]
 
-    start_date = helpers.convert_timestamp_to_datetime(match.start_time)
+    start_date = helpers.convert_timestamp_to_time_ago(match.start_time)
 
     output_message = f"{game_mode} ∙ {lobby_type} ∙ {start_date}\n"
     output_message += f"{hero_name} ∙ {kda} ∙ {gpm} GPM ∙ {xpm} XPM\n"

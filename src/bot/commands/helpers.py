@@ -45,6 +45,18 @@ def format_winrate_response(hero_data, telegram_handle):
     winrate = round(winrate, 3)
     return f"@{telegram_handle} has a {winrate}% winrate as {hero_name} ({hero_data['win']} wins over {hero_data['games']} games)"
 
+def convert_timestamp_to_time_ago(timestamp):
+    datetime_obj = datetime.datetime.fromtimestamp(timestamp)
+    time_ago = datetime.datetime.now() - datetime_obj
+    time_ago = time_ago.total_seconds()
+    if time_ago < 60:
+        return f"{int(time_ago)} seconds ago"
+    elif time_ago < 3600:
+        return f"{int(time_ago / 60)} minutes ago"
+    elif time_ago < 86400:
+        return f"{int(time_ago / 3600)} hours ago"
+    else:
+        return f"{int(time_ago / 86400)} days ago"
 
 def convert_timestamp_to_datetime(timestamp):
     datetime_obj = datetime.datetime.fromtimestamp(timestamp)
