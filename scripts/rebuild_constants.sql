@@ -7,8 +7,8 @@ CREATE TABLE heroes (
     name TEXT NOT NULL UNIQUE,
     localized_name TEXT NOT NULL UNIQUE,
     primary_attr VARCHAR(3),
-    roles TEXT[]
-    img TEXT
+    roles TEXT[],
+    img TEXT NOT NULL UNIQUE
 );
 
 CREATE TABLE hero_aliases (
