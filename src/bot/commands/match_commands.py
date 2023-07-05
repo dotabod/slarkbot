@@ -1,3 +1,5 @@
+import requests
+from io import BytesIO
 from src.lib import endpoints
 from src import constants
 from src.bot.models.user import User
@@ -44,12 +46,21 @@ def run_last_match_command(update, context):
 
     try:
         output_message = match_helpers.create_match_message(response[0])
+        match = match_helpers.MatchDto(**response[0])
+        hero = helpers.get_hero_by_name_or_alias(match.hero_id)
+        img_url = f"https://cdn.cloudflare.steamstatic.com{hero.img}"
+
+        # Download the image
+        img_response = requests.get(img_url)
+        img_bytes = BytesIO(img_response.content)
+
         button = InlineKeyboardButton(
             "View on stratz",
             url=("https://stratz.com/matches/" + str(response[0]["match_id"])),
         )
         markup = InlineKeyboardMarkup.from_button(button)
-        update.message.reply_markdown_v2(output_message, reply_markup=markup)
+        update.message.reply_photo(photo=img_bytes, caption=output_message, reply_markup=markup)
+
     except IndexError:
         update.message.reply_markdown_v2(
             "I could not find a match by those criteria, sorry\!"
