@@ -14,5 +14,25 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the rest of your application files
 COPY . .
 
+# Set the build arguments for environment variables
+ARG OPEN_DOTA_API_BASE_URL
+ARG LOG_LEVEL
+ARG TELEGRAM_BOT_TOKEN
+ARG POSTGRES_USER
+ARG POSTGRES_PASSWORD
+ARG POSTGRES_DB
+ARG POSTGRES_HOST
+ARG SLARKBOT_VERSION
+
+# Set the environment variables
+ENV OPEN_DOTA_API_BASE_URL=$OPEN_DOTA_API_BASE_URL
+ENV LOG_LEVEL=$LOG_LEVEL
+ENV TELEGRAM_BOT_TOKEN=$TELEGRAM_BOT_TOKEN
+ENV POSTGRES_USER=$POSTGRES_USER
+ENV POSTGRES_PASSWORD=$POSTGRES_PASSWORD
+ENV POSTGRES_DB=$POSTGRES_DB
+ENV POSTGRES_HOST=$POSTGRES_HOST
+ENV SLARKBOT_VERSION=$SLARKBOT_VERSION
+
 # Set the entry point or command to run your application
-CMD [ "python", "main.py" ]
+CMD ["python", "main.py"]
