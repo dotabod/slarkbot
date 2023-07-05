@@ -3,8 +3,6 @@
 
 Telegram Bot for Dota2. Get DOTA statistics about matches, players, etc
 
-The `docs` directory contains some handy documentation for various purposes.
-
 ## Prerequisites
 
 - Python 3.6+
@@ -26,12 +24,6 @@ The `docs` directory contains some handy documentation for various purposes.
 ## Scripts
 
 Scripts are made available to the command line via `setup.py`. To use these scripts, run `python setup.py install`.
-The following is a short list of the scripts provided with a short description:
-
-- `slarbot_reseed` :: Drop, recreate, and reseed the slarkbot database
-
-Usage for these scripts are as follows:
-`$ slarkbot_reseed`
 
 ## Environment Variables
 
@@ -41,6 +33,7 @@ Usage for these scripts are as follows:
 - `POSTGRES_USER` :: User name for the dockerized postgres instance
 - `POSTGRES_PASSWORD` :: Password for the dockerized postgres instance
 - `POSTGRES_DB` :: Name of the dockerized postgres database
+- `POSTGRES_HOST` :: Hostname of the dockerized postgres instance
 - `SLARKBOT_VERSION` :: The current semantic version of slarkbot
 
 ## Running the Database
@@ -56,24 +49,12 @@ Test cases uses default Python testing module `unittest` but uses `pytest` as th
 - Write your unit tests
 - From the command line `pytest`
 
-## Slarkbot Directory Structure
-
-- `scripts` :: Handy scripts to manage and configure slarkbot and his database,.
-- `src` :: All of the code and logic to make slarkbot run
-- `src/bot` :: All of the logic related to bot aspect of slarkbot. This includes `bot_factory.py` which registers all of the commands, message handlers, etc and creates a `bot` object.
-- `src/constant_data` :: soon to be deprecated. Holds JSON for constant lookups.
-- `src/lib` :: API requests and responses are handled here.
-- `src/test` :: Unit tests for endpoint and API logic.
-- `src/bot/models` :: Holds ORM models used by `src/bot/services`
-- `src/bot/services` :: Data access services. Uses the SQLAlchemy ORM to perform database operations.
-- `src/bot/commands` :: Holds all of the commands for slarkbot. Anything starting with `/` is considered a command. Register these in `bot_factory.py`.
-- `src/bot/message_handlers` :: Logic to handle messages based on regex matches. When slarkbot says you're welcome after you thank him, thats a message handler.
-- `src/bot/callback_handlers` :: Used for telegram inline querying.
-
 ## Commands
 
-Commands must preceed with `/` and match arguments given in the help text.
-
-- `/help` :: Show a help text describing commands and usage.
-- `/register <friend_id>` :: Register your friend ID to your telegram handle. Must be done to use some commands. Your friend ID is found on your dota profile in game.
-- `/status` :: Check to see if everything is up and running.
+- `/register <your id here>` :: Register your telegram handle to your steam id to use other commands\. Examples: `/register 55678920`, `/register tradeless`, `/register https://steamcommunity\.com/profiles/76561198073221358`\n
+- `/help` :: Display this help message\n
+- `/matchdata` :: Explains how to expose match data in the game and sync it to Opendota, where Slarkbot gets its data from\n
+- `/recents <user:optional> <limit:optional>` :: Look up someone's most recent matches\. Defaults to 5 if limit is not defined and to you if user is not defined\. Must have account id registered using `/register`\. Example :: `/recents`, `/recents 10` for 10 most recent matches, `/recents danvb` for Daniel's last games, `/recents 20 KittyKirov` for Kirov's last 20 games\n
+- `/lastmatch <user:optional> <hero:optional>` :: Gets the last match someone played\. Defaults to you if no argument is given\. If a hero name is given, shows the last match that user played with that hero\. User must be registered for this to work \n
+- `/rank <user:optional>` :: Gets a user's current medal\. Defaults to you if no argument is given\. User must be registered for this to work \n
+- `/winrate <user:optional> <hero name>` :: Gets your or someone else's winrate with the given hero\. User must be registered for this to work\n
