@@ -4,7 +4,7 @@ from src.lib import endpoints
 from src import constants
 from src.bot.models.user import User
 from src.bot.models.sessions import create_session
-from src.bot.services import user_services
+from src.bot.services import hero_services, user_services
 from src.bot.commands import helpers, match_helpers
 from telegram import InlineKeyboardMarkup, InlineKeyboardButton
 from src.bot.callback_handlers.match_callbacks import create_inline_keyboard
@@ -47,7 +47,7 @@ def run_last_match_command(update, context):
     try:
         output_message = match_helpers.create_match_message(response[0])
         match = match_helpers.MatchDto(**response[0])
-        hero = helpers.get_hero_by_name_or_alias(match.hero_id)
+        hero = hero_services.get_hero_by_id(match.hero_id)
         img_url = f"https://cdn.cloudflare.steamstatic.com{hero.img}"
 
         # Download the image

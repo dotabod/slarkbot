@@ -17,19 +17,15 @@ class Player:
         [setattr(self, x, i) for x, i in kwargs.items()]
 
 
-def get_hero_by_name_or_alias(hero_name):
-    hero = hero_services.get_hero_by_name(hero_name)
-    if hero:
-        return hero
-
-    hero_alias = hero_services.get_hero_alias_by_name(hero_name)
-    if hero_alias:
-        return hero_alias
-
 def get_hero_id_by_name_or_alias(name_or_alias):
-    hero = hero_services.get_hero_by_name_or_alias(name_or_alias)
+    hero = hero_services.get_hero_by_name(name_or_alias)
     if hero:
         return hero.id
+
+    hero_alias = hero_services.get_hero_alias_by_name(name_or_alias)
+    if hero_alias:
+        return hero_alias.hero_id
+
 
 def filter_hero_winrates(hero_data, hero_id):
     hero_id = str(hero_id)
