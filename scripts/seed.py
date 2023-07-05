@@ -2,6 +2,7 @@
 
 import os
 import json
+import requests
 import psycopg2
 import psycopg2.extras
 
@@ -27,9 +28,16 @@ def read_json(path):
 
 def main():
     print(f"{GREEN}READING CONSTANT DATA{ENDC}")
-    heroes = read_json("src/constant_data/heroes.json")
+    heroes_url = "https://api.opendota.com/api/constants/heroes"
+    items_url = "https://api.opendota.com/api/constants/items"
+
+    heroes_response = requests.get(heroes_url)
+    items_response = requests.get(items_url)
+
+    heroes = heroes_response.json()
+    items = items_response.json()
+
     aliases = read_json("src/constant_data/aliases.json")
-    items = read_json("src/constant_data/items.json")
 
     all_heroes = []
     for hero_id, hero_obj in heroes.items():
