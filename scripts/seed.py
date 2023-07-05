@@ -84,7 +84,7 @@ def main():
                 %(name)s,
                 %(localized_name)s,
                 %(primary_attr)s,
-                %(roles)s
+                %(roles)s,
                 %(img)s
             ) ON CONFLICT DO NOTHING;
             """,
