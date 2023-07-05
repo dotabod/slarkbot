@@ -59,6 +59,12 @@ def main():
     conn.autocommit = True
 
     with conn.cursor() as cursor:
+        # Drop tables if they exist
+        print(f"{GREEN}DROPPING TABLES{ENDC}")
+        cursor.execute("DROP TABLE IF EXISTS hero_aliases;")
+        cursor.execute("DROP TABLE IF EXISTS heroes;")
+        cursor.execute("DROP TABLE IF EXISTS items;")
+
         print(f"{GREEN}SEEDING HEROES{ENDC}")
         psycopg2.extras.execute_batch(
             cursor,
