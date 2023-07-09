@@ -14,7 +14,7 @@ def create_database_engine():
     db_name = os.getenv("POSTGRES_DB")
 
     connection_string = (
-        f"postgresql://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}"
+        f"postgresql://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}?sslmode=require"
     )
     database_engine = create_engine(connection_string)
     return database_engine
