@@ -166,8 +166,9 @@ def run_get_player_hero_winrate_command(update, context):
 @require_register
 def run_get_player_steam_profile_command(update, user):
     update.message.reply_text(
-        f"@{user.telegram_handle}'s steam profile is "
-        + SteamID(user.account_id).community_url
+        f"@{user.telegram_handle}'s: "
+        + SteamID(user.account_id).community_url + " "
+        + "https://dotabuff.com/players/" + str(user.account_id)
     )
 
 
