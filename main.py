@@ -16,9 +16,9 @@ from src.bot import bot_factory
 def main():
     check_config()
 
-    updater, logger = bot_factory.create_bot()
-    updater.start_polling()
-    updater.idle()
+    application, logger = bot_factory.create_bot()
+    application.run_polling(allowed_updates=Update.ALL_TYPES)
+    application.idle()
 
 
 if __name__ == "__main__":
