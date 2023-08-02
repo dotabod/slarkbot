@@ -18,7 +18,6 @@ def main():
 
     application, logger = bot_factory.create_bot()
     application.run_polling(allowed_updates=Update.ALL_TYPES)
-    application.idle()
 
 
 if __name__ == "__main__":
