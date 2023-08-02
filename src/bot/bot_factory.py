@@ -12,7 +12,7 @@ def create_bot():
     bot_token = os.getenv("TELEGRAM_BOT_TOKEN")
 
     logger = logger_factory.create_logger()
-    updater = Updater(bot_token, use_context=True)
+    updater = Updater(bot_token)
     dp = updater.dispatcher
 
     dp.add_handler(CommandHandler("register", user_commands.run_register_command))
