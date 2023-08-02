@@ -1,3 +1,3 @@
 
-def run_changes_command(update, context):
-    update.message.reply_text("@ThePascalRascal @gatesyp @aronstravels @memerson @CStebb @ketodev")
+async def run_changes_command(update, context):
+    await update.message.reply_text("@ThePascalRascal @gatesyp @aronstravels @memerson @CStebb @ketodev")

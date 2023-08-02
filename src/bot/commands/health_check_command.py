@@ -2,7 +2,7 @@ from src.lib import endpoints
 from src.constants import HTTP_STATUS_CODES
 
 
-def run_health_check(update, context):
+async def run_health_check(update, context):
     response, status_code = endpoints.get_health_check()
 
     if status_code != HTTP_STATUS_CODES.OK.value:
@@ -13,4 +13,4 @@ def run_health_check(update, context):
     else:
         text = "Health check passed OK"
 
-    update.message.reply_text(text)
+    await update.message.reply_text(text)

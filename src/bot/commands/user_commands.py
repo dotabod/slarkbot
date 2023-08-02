@@ -17,7 +17,7 @@ def save_user(user):
     session.commit()
 
 
-def run_register_command(update, context):
+async def run_register_command(update, context):
     chat_id = update.message.chat_id
     telegram_handle = update.message.from_user.username
 
@@ -43,18 +43,18 @@ def run_register_command(update, context):
         user.account_id = account_id
         user.updated_at = datetime.now()
         save_user(user)
-        update.message.reply_text(
+        await update.message.reply_text(
             f"Successfully registered user {telegram_handle} as {SteamID(account_id).community_url}"
         )
     except (IndexError, ValueError):
-        update.message.reply_text("No dota friend ID was given")
+        await update.message.reply_text("No dota friend ID was given")
     except (UnboundLocalError):
-        update.message.reply_text(
+        await update.message.reply_text(
             "I couldn't make sense of your profile ID! You can give me a Dota friend code, a Steam ID number, a link to your Steam profile or your custom URL."
         )
 
 
-def run_get_player_recents_command(update, context):
+async def run_get_player_recents_command(update, context):
     # Assume defaults
     registered_user = user_services.lookup_user_by_telegram_handle(
         update.message.from_user.username
@@ -82,7 +82,7 @@ def run_get_player_recents_command(update, context):
         hero_name_parts.remove(arg)
 
     if not registered_user:
-        update.message.reply_markdown_v2(constants.USER_NOT_REGISTERED_MESSAGE)
+        await update.message.reply_markdown_v2(constants.USER_NOT_REGISTERED_MESSAGE)
 
     account_id = registered_user.account_id
 
@@ -102,19 +102,19 @@ def run_get_player_recents_command(update, context):
         )
 
     if status_code != constants.HTTP_STATUS_CODES.OK.value:
-        update.message.reply_text(constants.BAD_RESPONSE_MESSAGE)
+        await update.message.reply_text(constants.BAD_RESPONSE_MESSAGE)
 
     output_message = match_helpers.create_recent_matches_message(response[:limit])
-    update.message.reply_text(output_message)
+    await update.message.reply_text(output_message)
 
 
 @require_register
-def run_get_player_rank_command(update, user):
+async def run_get_player_rank_command(update, user):
     account_id = user.account_id
     response, status_code = endpoints.get_player_rank_by_account_id(account_id)
 
     if status_code != constants.HTTP_STATUS_CODES.OK.value:
-        update.message.reply_text(constants.BAD_RESPONSE_MESSAGE)
+        await update.message.reply_text(constants.BAD_RESPONSE_MESSAGE)
 
     persona_name = response["profile"]["personaname"]
     rank_tier = response["rank_tier"]
@@ -122,12 +122,12 @@ def run_get_player_rank_command(update, user):
     rank = helpers.map_rank_tier_to_string(rank_tier)
 
     output_message = f"{persona_name} (@{user.telegram_handle}) is {rank}"
-    update.message.reply_text(output_message)
+    await update.message.reply_text(output_message)
 
 
-def run_get_player_hero_winrate_command(update, context):
+async def run_get_player_hero_winrate_command(update, context):
     if not context.args:
-        update.message.reply_markdown_v2(
+        await update.message.reply_markdown_v2(
             "No arguments given\! Try `/winrate <hero name>` or `/winrate <username> <hero name>`"
         )
 
@@ -143,45 +143,45 @@ def run_get_player_hero_winrate_command(update, context):
         )
 
     if not registered_user:
-        update.message.reply_markdown_v2(constants.USER_NOT_REGISTERED_MESSAGE)
+        await update.message.reply_markdown_v2(constants.USER_NOT_REGISTERED_MESSAGE)
 
     hero_name = " ".join(hero_name_parts)
     hero_id = helpers.get_hero_id_by_name_or_alias(hero_name)
 
     if not hero_id:
-        update.message.reply_markdown_v2(constants.USER_OR_HERO_NOT_FOUND_MESSAGE)
+        await update.message.reply_markdown_v2(constants.USER_OR_HERO_NOT_FOUND_MESSAGE)
 
     response, status_code = endpoints.get_player_hero_stats(registered_user.account_id)
 
     if status_code != constants.HTTP_STATUS_CODES.OK.value:
-        update.message.reply_text(constants.BAD_RESPONSE_MESSAGE)
+        await update.message.reply_text(constants.BAD_RESPONSE_MESSAGE)
 
     hero_data = helpers.filter_hero_winrates(response, hero_id)
 
-    update.message.reply_text(
+    await update.message.reply_text(
         helpers.format_winrate_response(hero_data, registered_user.telegram_handle)
     )
 
 
 @require_register
-def run_get_player_steam_profile_command(update, user):
-    update.message.reply_text(
+async def run_get_player_steam_profile_command(update, user):
+    await update.message.reply_text(
         f"@{user.telegram_handle}'s: "
         + SteamID(user.account_id).community_url + " "
         + "https://dotabuff.com/players/" + str(user.account_id)
     )
 
 
-def run_player_compare_command(update, context):
+async def run_player_compare_command(update, context):
     telegram_handle = update.message.from_user.username
 
     user = user_services.lookup_user_by_telegram_handle(telegram_handle)
 
     if not user:
-        update.message.reply_markdown_v2(constants.USER_NOT_REGISTERED_MESSAGE)
+        await update.message.reply_markdown_v2(constants.USER_NOT_REGISTERED_MESSAGE)
 
     if not context.args:
-        update.message.reply_markdown_v2(
+        await update.message.reply_markdown_v2(
             "No arguments given\! Try `/compare <username> <hero name>` or `/compare <username> <hero name>`"
         )
 
@@ -192,13 +192,13 @@ def run_player_compare_command(update, context):
         # If there's a username in the args, remove it now
         hero_name_parts.pop(0)
     else:
-        update.message.reply_markdown_v2(constants.USER_NOT_REGISTERED_MESSAGE)
+        await update.message.reply_markdown_v2(constants.USER_NOT_REGISTERED_MESSAGE)
 
     hero_name = " ".join(hero_name_parts)
     hero_id = helpers.get_hero_id_by_name_or_alias(hero_name)
 
     if not hero_id:
-        update.message.reply_markdown_v2(constants.USER_OR_HERO_NOT_FOUND_MESSAGE)
+        await update.message.reply_markdown_v2(constants.USER_OR_HERO_NOT_FOUND_MESSAGE)
 
     sent_user_response, sent_status_code = endpoints.get_player_hero_stats(
         user.account_id
@@ -212,8 +212,8 @@ def run_player_compare_command(update, context):
         sent_status_code != constants.HTTP_STATUS_CODES.OK.value
         or queried_status_code != constants.HTTP_STATUS_CODES.OK.value
     ):
-        update.message.reply_markdown_v2(constants.USER_OR_HERO_NOT_FOUND_MESSAGE)
+        await update.message.reply_markdown_v2(constants.USER_OR_HERO_NOT_FOUND_MESSAGE)
 
-    update.message.reply_text(
+    await update.message.reply_text(
         helpers.format_compare_response(sent_user_response, queried_user_response)
     )
