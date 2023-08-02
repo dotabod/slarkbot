@@ -3,7 +3,7 @@ import datetime
 from src import constants
 from src.constants import JSON_CONSTANT_DATA_FILE_MAPPING, JSON_CONSTANT_DATA_FILE_DIR
 from src.lib.endpoints import get_player_by_account_id
-from telegram.utils.helpers import escape_markdown
+from telegram.helpers import escape_markdown
 from src.bot.services import item_services, hero_services
 
 

@@ -1,7 +1,7 @@
 import datetime
 from src import constants
 from src.lib.endpoints import get_player_by_account_id
-from telegram.utils.helpers import escape_markdown
+from telegram.helpers import escape_markdown
 from src.bot.services import item_services
 from src.bot.services import user_services
 from src.bot.services import hero_services
