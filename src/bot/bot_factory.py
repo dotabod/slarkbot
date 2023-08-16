@@ -1,17 +1,11 @@
 import os
 
-from telegram.ext import (
-    CommandHandler,
-    CallbackQueryHandler,
-    MessageHandler,
-    Filters,
-)
+from telegram.ext import Application, CallbackQueryHandler, CommandHandler, Updater
 
 from src.bot import logger_factory
 from src.bot.callback_handlers import match_callbacks
 from src.bot.commands import (changelog_command, help_commands, match_commands,
                               user_commands)
-from src.bot.message_handlers.abc_order import abc_order
 
 
 def create_bot():
@@ -44,8 +38,6 @@ def create_bot():
             ["exposedata", "matchdata"], help_commands.run_expose_data_command
         )
     )
-
-    application.add_handler(MessageHandler(Filters.text & ~Filters.command, abc_order), 1)
 
     application.add_handler(
         CallbackQueryHandler(
