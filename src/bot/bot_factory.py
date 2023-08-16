@@ -4,8 +4,8 @@ from telegram.ext import (
     CommandHandler,
     CallbackQueryHandler,
     MessageHandler,
+    Filters,
 )
-from telegram.ext import filters as filters_module
 
 from src.bot import logger_factory
 from src.bot.callback_handlers import match_callbacks
@@ -45,7 +45,7 @@ def create_bot():
         )
     )
 
-    application.add_handler(MessageHandler(filters_module.TEXT & ~filters_module.COMMAND, abc_order), 1)
+    application.add_handler(MessageHandler(Filters.text & ~Filters.command, abc_order), 1)
 
     application.add_handler(
         CallbackQueryHandler(
