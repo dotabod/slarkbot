@@ -1,6 +1,7 @@
-import os
-import requests
 import functools
+import os
+
+import requests
 
 
 def build_url(uri):

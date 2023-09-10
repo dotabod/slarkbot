@@ -1,8 +1,8 @@
-from src.lib import endpoints
-from src import constants
-from src.bot.commands import helpers
-from src.bot.commands import match_helpers
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
+
+from src import constants
+from src.bot.commands import helpers, match_helpers
+from src.lib import endpoints
 
 
 def handle_match_details_callback(update, context):

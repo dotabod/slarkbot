@@ -1,5 +1,5 @@
-from src.bot.models.user import User
 from src.bot.models.sessions import create_session
+from src.bot.models.user import User
 
 
 def lookup_user_by_telegram_handle(telegram_handle):

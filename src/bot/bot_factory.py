@@ -1,6 +1,7 @@
 import os
 
-from telegram.ext import Application, CallbackQueryHandler, CommandHandler, Updater
+from telegram.ext import (Application, CallbackQueryHandler, CommandHandler,
+                          Updater)
 
 from src.bot import logger_factory
 from src.bot.callback_handlers import match_callbacks
@@ -14,24 +15,32 @@ def create_bot():
     logger = logger_factory.create_logger()
     application = Application.builder().token(bot_token).build()
 
-    application.add_handler(CommandHandler("register", user_commands.run_register_command))
-    application.add_handler(CommandHandler("rank", user_commands.run_get_player_rank_command))
+    application.add_handler(CommandHandler(
+        "register", user_commands.run_register_command))
+    application.add_handler(CommandHandler(
+        "rank", user_commands.run_get_player_rank_command))
     application.add_handler(
-        CommandHandler(["winrate", "wr"], user_commands.run_get_player_hero_winrate_command)
+        CommandHandler(["winrate", "wr"],
+                       user_commands.run_get_player_hero_winrate_command)
     )
     application.add_handler(
         CommandHandler(
             ["recents", "matches"], user_commands.run_get_player_recents_command
         )
     )
-    application.add_handler(CommandHandler(["help", "start"], help_commands.run_help_command))
-    application.add_handler(CommandHandler(["lastmatch", "lm", "lg"], match_commands.run_last_match_command))
-    application.add_handler(CommandHandler("match", match_commands.run_get_match_by_match_id))
+    application.add_handler(CommandHandler(
+        ["help", "start"], help_commands.run_help_command))
+    application.add_handler(CommandHandler(
+        ["lastmatch", "lm", "lg"], match_commands.run_last_match_command))
+    application.add_handler(CommandHandler(
+        "match", match_commands.run_get_match_by_match_id))
     application.add_handler(
-        CommandHandler(["bros", "gamers"], changelog_command.run_changes_command)
+        CommandHandler(["bros", "gamers"],
+                       changelog_command.run_changes_command)
     )
     application.add_handler(
-        CommandHandler("profile", user_commands.run_get_player_steam_profile_command)
+        CommandHandler(
+            "profile", user_commands.run_get_player_steam_profile_command)
     )
     application.add_handler(
         CommandHandler(

@@ -1,5 +1,6 @@
-from . import request
 from src.constants import API_URI_ENDPOINTS
+
+from . import request
 
 
 def get_health_check():

@@ -1,6 +1,7 @@
+from sqlalchemy import BigInteger, Column, Integer, String
 from sqlalchemy.sql.sqltypes import DateTime
+
 from . import Base
-from sqlalchemy import Column, String, Integer, BigInteger
 
 
 class User(Base):

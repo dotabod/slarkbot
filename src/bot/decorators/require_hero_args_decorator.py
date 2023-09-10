@@ -1,4 +1,5 @@
 from functools import wraps
+
 from src import constants
 from src.bot.services import hero_services
 

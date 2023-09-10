@@ -1,5 +1,6 @@
+from sqlalchemy import ARRAY, Column, Integer, String
+
 from . import Base
-from sqlalchemy import Column, Integer, String, ARRAY
 
 
 class Hero(Base):

@@ -1,12 +1,12 @@
+import os
 import unittest
 from unittest.mock import patch
-import os
+
 from dotenv import load_dotenv
 
-from . import well_known_data
+from src.lib import endpoints, request
 
-from src.lib import endpoints
-from src.lib import request
+from . import well_known_data
 
 
 class TestEndpoints(unittest.TestCase):

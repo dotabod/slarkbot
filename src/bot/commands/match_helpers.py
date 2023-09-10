@@ -1,11 +1,11 @@
 import datetime
-from src import constants
-from src.lib.endpoints import get_player_by_account_id
+
 from telegram.helpers import escape_markdown
-from src.bot.services import item_services
-from src.bot.services import user_services
-from src.bot.services import hero_services
+
+from src import constants
 from src.bot.commands import helpers
+from src.bot.services import hero_services, item_services, user_services
+from src.lib.endpoints import get_player_by_account_id
 
 
 class MatchDto:
@@ -40,7 +40,8 @@ def create_recent_matches_message(json_api_data):
 
         kda = f"%s/%s/%s" % (match.kills, match.deaths, match.assists)
 
-        result_string = helpers.get_match_result(match.player_slot, match.radiant_win)
+        result_string = helpers.get_match_result(
+            match.player_slot, match.radiant_win)
 
         duration = str(datetime.timedelta(seconds=match.duration))
 
@@ -67,7 +68,8 @@ def create_match_message(match_data):
     gpm = match.gold_per_min
     xpm = match.xp_per_min
 
-    result_string = helpers.get_match_result(match.player_slot, match.radiant_win)
+    result_string = helpers.get_match_result(
+        match.player_slot, match.radiant_win)
     game_mode = constants.GAME_MODE_MAP[match.game_mode]
     lobby_type = constants.LOBBY_TYPE_MAP[match.lobby_type]
 
@@ -137,12 +139,14 @@ def build_default_match_message(match, player_data):
 
     for player in player_data:
         if player.account_id:
-            bot_user = user_services.lookup_user_by_account_id(player.account_id)
+            bot_user = user_services.lookup_user_by_account_id(
+                player.account_id)
             if bot_user:
                 hero_data = hero_services.get_hero_by_id(player.hero_id)
                 hero_name = try_get_hero_name(hero_data)
 
-                known_players.append(f"{bot_user.telegram_handle} ({hero_name})")
+                known_players.append(
+                    f"{bot_user.telegram_handle} ({hero_name})")
 
     output_message += f"\nKnown players: {', '.join(known_players)}"
 
@@ -210,7 +214,8 @@ def build_players_player_line(player):
     else:
         rank = ""
 
-    party_letter = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"][player.party_id]
+    party_letter = ["A", "B", "C", "D", "E",
+                    "F", "G", "H", "I", "J"][player.party_id]
 
     return f"{party_letter} | {player_name} ({hero_name}) {rank}\n"
 
@@ -264,12 +269,14 @@ def build_pick_order_match_message(match, player_data):
     output_message = "\nRadiant:\n"
     for player in player_data:
         if player.isRadiant:
-            output_message += build_pick_order_player_line(player, picks_ordered)
+            output_message += build_pick_order_player_line(
+                player, picks_ordered)
 
     output_message += "\nDire:\n"
     for player in player_data:
         if not player.isRadiant:
-            output_message += build_pick_order_player_line(player, picks_ordered)
+            output_message += build_pick_order_player_line(
+                player, picks_ordered)
 
     banned_heroes = []
     for ban in bans:

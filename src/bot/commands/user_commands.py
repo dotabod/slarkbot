@@ -1,13 +1,16 @@
-from src.bot.models.user import User
-from src.bot.models.sessions import create_session
-from src.bot.services import user_services, hero_services
-from src.bot.commands import helpers, match_helpers
-from src.lib.steamapi import resolve_steam_vanity_url
-from src.lib import endpoints
-from src import constants
-from steam.steamid import SteamID
-from src.bot.decorators.require_registered_user_decorator import require_register
 from datetime import datetime
+
+from steam.steamid import SteamID
+
+from src import constants
+from src.bot.commands import helpers, match_helpers
+from src.bot.decorators.require_registered_user_decorator import \
+    require_register
+from src.bot.models.sessions import create_session
+from src.bot.models.user import User
+from src.bot.services import hero_services, user_services
+from src.lib import endpoints
+from src.lib.steamapi import resolve_steam_vanity_url
 
 
 def save_user(user):
@@ -104,7 +107,8 @@ async def run_get_player_recents_command(update, context):
     if status_code != constants.HTTP_STATUS_CODES.OK.value:
         await update.message.reply_text(constants.BAD_RESPONSE_MESSAGE)
 
-    output_message = match_helpers.create_recent_matches_message(response[:limit])
+    output_message = match_helpers.create_recent_matches_message(
+        response[:limit])
     await update.message.reply_text(output_message)
 
 
@@ -132,7 +136,8 @@ async def run_get_player_hero_winrate_command(update, context):
         )
 
     hero_name_parts = context.args
-    registered_user = user_services.lookup_user_by_telegram_handle(context.args[0])
+    registered_user = user_services.lookup_user_by_telegram_handle(
+        context.args[0])
 
     if registered_user:
         # If there's a username in the args, remove it now
@@ -151,7 +156,8 @@ async def run_get_player_hero_winrate_command(update, context):
     if not hero_id:
         await update.message.reply_markdown_v2(constants.USER_OR_HERO_NOT_FOUND_MESSAGE)
 
-    response, status_code = endpoints.get_player_hero_stats(registered_user.account_id)
+    response, status_code = endpoints.get_player_hero_stats(
+        registered_user.account_id)
 
     if status_code != constants.HTTP_STATUS_CODES.OK.value:
         await update.message.reply_text(constants.BAD_RESPONSE_MESSAGE)
@@ -159,7 +165,8 @@ async def run_get_player_hero_winrate_command(update, context):
     hero_data = helpers.filter_hero_winrates(response, hero_id)
 
     await update.message.reply_text(
-        helpers.format_winrate_response(hero_data, registered_user.telegram_handle)
+        helpers.format_winrate_response(
+            hero_data, registered_user.telegram_handle)
     )
 
 
@@ -186,7 +193,8 @@ async def run_player_compare_command(update, context):
         )
 
     hero_name_parts = context.args
-    queried_user = user_services.lookup_user_by_telegram_handle(context.args[0])
+    queried_user = user_services.lookup_user_by_telegram_handle(
+        context.args[0])
 
     if queried_user:
         # If there's a username in the args, remove it now
@@ -215,5 +223,6 @@ async def run_player_compare_command(update, context):
         await update.message.reply_markdown_v2(constants.USER_OR_HERO_NOT_FOUND_MESSAGE)
 
     await update.message.reply_text(
-        helpers.format_compare_response(sent_user_response, queried_user_response)
+        helpers.format_compare_response(
+            sent_user_response, queried_user_response)
     )

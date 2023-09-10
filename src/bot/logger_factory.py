@@ -1,10 +1,9 @@
 import logging
 import os
 import sys
-
 from datetime import date
 
-from src.constants import LOG_LEVEL_MAP, DEFAULT_LOG_LEVEL
+from src.constants import DEFAULT_LOG_LEVEL, LOG_LEVEL_MAP
 
 
 def create_log_file():

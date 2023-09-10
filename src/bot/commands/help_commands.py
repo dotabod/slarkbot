@@ -1,9 +1,6 @@
-from src.constants import (
-    HELP_TEXT,
-    EXPOSE_DATA_TEXT_PART_ONE,
-    EXPOSE_DATA_TEXT_PART_TWO,
-    EXPOSE_DATA_TEXT_PART_THREE,
-)
+from src.constants import (EXPOSE_DATA_TEXT_PART_ONE,
+                           EXPOSE_DATA_TEXT_PART_THREE,
+                           EXPOSE_DATA_TEXT_PART_TWO, HELP_TEXT)
 
 
 async def run_help_command(update, context):
