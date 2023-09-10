@@ -4,9 +4,7 @@ from io import BytesIO
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
-from webdriver_manager.chrome import ChromeDriverManager
 
 from src import constants
 from src.bot.callback_handlers.match_callbacks import create_inline_keyboard
@@ -27,7 +25,7 @@ def capture_screenshot_of_element(url, xpath):
     options.add_argument('--headless')  # Run Chrome in headless mode (no GUI)
     # Disable GPU acceleration for headless mode
     options.add_argument('--disable-gpu')
-    s=Service(ChromeDriverManager().install())
+    s=Service('/usr/bin/chromium')
     driver = webdriver.Chrome(service=s, options=options)
 
     try:

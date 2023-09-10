@@ -3,7 +3,7 @@ FROM python:3.9
 WORKDIR /app
 
 # Install PostgreSQL client library and development files
-RUN apt-get update && apt-get install -y libpq-dev
+RUN apt-get update && apt-get install -y libpq-dev chromium
 
 # Copy requirements.txt file to the working directory
 COPY requirements.txt .
