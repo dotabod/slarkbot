@@ -17,10 +17,7 @@ docker build \
   --build-arg OPEN_DOTA_API_BASE_URL="$OPEN_DOTA_API_BASE_URL" \
   --build-arg LOG_LEVEL="$LOG_LEVEL" \
   --build-arg TELEGRAM_BOT_TOKEN="$TELEGRAM_BOT_TOKEN" \
-  --build-arg POSTGRES_USER="$POSTGRES_USER" \
-  --build-arg POSTGRES_PASSWORD="$POSTGRES_PASSWORD" \
-  --build-arg POSTGRES_DB="$POSTGRES_DB" \
-  --build-arg POSTGRES_HOST="$POSTGRES_HOST" \
+  --build-arg POSTGRES_URL="$POSTGRES_URL" \
   --build-arg PUDGEBOT_VERSION="$PUDGEBOT_VERSION" \
   -t $CONTAINER_NAME .
 

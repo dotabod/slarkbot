@@ -1,6 +1,5 @@
-from enum import Enum
 import logging
-
+from enum import Enum
 
 DEFAULT_LOG_LEVEL = "debug"
 
@@ -101,21 +100,9 @@ ENVIRONMENT_VARIABLES_CONFIG = {
         "required": False,
         "description": "Logging level. Defaults to `debug`",
     },
-    "POSTGRES_PASSWORD": {
-        "required": True,
-        "description": "Password for dockerized postgres instance",
-    },
-    "POSTGRES_USER": {
-        "required": True,
-        "description": "User name for dockerized postgres instance",
-    },
-    "POSTGRES_DB": {
-        "required": True,
-        "description": "Name of dockerized postgres database",
-    },
-    "DATABASE_PORT": {
+    "POSTGRES_URL": {
         "required": False,
-        "description": "Port to use for dockerized postgres container. Defaults to 5432",
+        "description": "Url to use for dockerized postgres container",
     },
 }
 

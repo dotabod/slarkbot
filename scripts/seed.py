@@ -1,21 +1,17 @@
 #!/usr/bin/env python
 
-import os
 import json
-import requests
+import os
+from pprint import pprint
+
 import psycopg2
 import psycopg2.extras
-
-from pprint import pprint
-from dotenv import load_dotenv, find_dotenv
+import requests
+from dotenv import find_dotenv, load_dotenv
 
 load_dotenv(find_dotenv())
 
-DATABASE_NAME = os.getenv("POSTGRES_DB")
-POSTGRES_HOST = os.getenv("POSTGRES_HOST")
-USER = os.getenv("POSTGRES_USER")
-PASSWORD = os.getenv("POSTGRES_PASSWORD")
-PORT = os.getenv("DATABASE_PORT")
+POSTGRES_URL = os.getenv("POSTGRES_URL")
 
 GREEN = "\033[92m"
 ENDC = "\033[0m"
@@ -56,7 +52,8 @@ def main():
     all_aliases = []
     for alias_obj in aliases:
         for alias in alias_obj["aliases"]:
-            all_aliases.append({"hero_id": alias_obj["id"], "alias": alias.lower()})
+            all_aliases.append(
+                {"hero_id": alias_obj["id"], "alias": alias.lower()})
 
     all_items = []
     for item_name, item_data in items.items():
@@ -64,8 +61,7 @@ def main():
         new_item = {"id": item_data["id"], "item_name": display_name.lower()}
         all_items.append(new_item)
 
-    conn_url = f"postgres://{USER}:{PASSWORD}@{POSTGRES_HOST}:{PORT}/{DATABASE_NAME}"
-    conn = psycopg2.connect(conn_url)
+    conn = psycopg2.connect(POSTGRES_URL)
     conn.autocommit = True
 
     with conn.cursor() as cursor:
