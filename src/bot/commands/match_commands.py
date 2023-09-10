@@ -1,14 +1,57 @@
-import requests
+import time
 from io import BytesIO
-from src.lib import endpoints
+
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup
+
 from src import constants
-from src.bot.models.user import User
-from src.bot.models.sessions import create_session
-from src.bot.services import hero_services, user_services
-from src.bot.commands import helpers, match_helpers
-from telegram import InlineKeyboardMarkup, InlineKeyboardButton
 from src.bot.callback_handlers.match_callbacks import create_inline_keyboard
-from src.bot.decorators.require_registered_user_decorator import require_register
+from src.bot.commands import helpers, match_helpers
+from src.bot.decorators.require_registered_user_decorator import \
+    require_register
+from src.bot.models.sessions import create_session
+from src.bot.models.user import User
+from src.bot.services import hero_services, user_services
+from src.lib import endpoints
+
+# Function to take a screenshot of a specific element on a webpage
+
+
+def capture_screenshot_of_element(url, xpath):
+    # Set up Selenium webdriver
+    options = webdriver.ChromeOptions()
+    options.add_argument('--headless')  # Run Chrome in headless mode (no GUI)
+    # Disable GPU acceleration for headless mode
+    options.add_argument('--disable-gpu')
+    driver = webdriver.Chrome(options=options)
+
+    try:
+        # Open the webpage
+        driver.get(url)
+
+        # Wait for the page to finish loading (you can increase the wait time if needed)
+        time.sleep(5)
+
+        # Find the element by XPath
+        element = driver.find_element(By.XPATH, xpath)
+
+        # Get the dimensions of the element
+        element_width = element.size['width']
+        element_height = element.size['height']
+
+        # Set the window size to match the element's dimensions (1080p resolution)
+        driver.set_window_size(element_width, element_height)
+
+        # Take a screenshot of the element
+        screenshot = element.screenshot_as_png
+
+        return screenshot
+
+    finally:
+        # Close the browser window
+        driver.quit()
 
 
 async def run_last_match_command(update, context):
@@ -48,15 +91,18 @@ async def run_last_match_command(update, context):
         output_message = match_helpers.create_match_message(response[0])
         match = match_helpers.MatchDto(**response[0])
         hero = hero_services.get_hero_by_id(match.hero_id)
+        url=("https://stratz.com/matches/" + str(response[0]["match_id"]))
         img_url = f"https://cdn.cloudflare.steamstatic.com{hero.img}"
 
-        # Download the image
-        img_response = requests.get(img_url)
-        img_bytes = BytesIO(img_response.content)
+        # Capture a screenshot of the specified element
+        element_xpath = "/html/body/main/div[3]/div[2]/div[2]"
+        screenshot = capture_screenshot_of_element(url, element_xpath)
 
+        # Send the screenshot as a photo
+        img_bytes = BytesIO(screenshot)
         button = InlineKeyboardButton(
             "View on stratz",
-            url=("https://stratz.com/matches/" + str(response[0]["match_id"])),
+            url,
         )
         markup = InlineKeyboardMarkup.from_button(button)
         await update.message.reply_photo(photo=img_bytes, caption=output_message, reply_markup=markup)
