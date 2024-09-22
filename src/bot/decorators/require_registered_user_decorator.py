@@ -3,7 +3,7 @@ from src.bot.services import user_services
 from src import constants
 
 
-async def require_register(func):
+def require_register(func):
     """
     A decorator that checks if a user is registered or a registered
     user was given as an argument. Fails if a user was not given and
@@ -20,7 +20,7 @@ async def require_register(func):
         user = user_services.lookup_user_by_telegram_handle(telegram_handle)
 
         if not user:
-            await update.message.reply_markdown_v2(constants.USER_NOT_REGISTERED_MESSAGE)
+            update.message.reply_markdown_v2(constants.USER_NOT_REGISTERED_MESSAGE)
 
         func(update, user)
 

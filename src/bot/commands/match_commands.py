@@ -11,7 +11,7 @@ from src.bot.callback_handlers.match_callbacks import create_inline_keyboard
 from src.bot.decorators.require_registered_user_decorator import require_register
 
 
-async def run_last_match_command(update, context):
+def run_last_match_command(update, context):
     registered_user = user_services.lookup_user_by_telegram_handle(
         update.message.from_user.username
     )
@@ -27,10 +27,10 @@ async def run_last_match_command(update, context):
         hero_name = " ".join(args)
         hero_id = helpers.get_hero_id_by_name_or_alias(hero_name)
         if not hero_id:
-            await update.message.reply_markdown_v2(constants.USER_OR_HERO_NOT_FOUND_MESSAGE)
+            update.message.reply_markdown_v2(constants.USER_OR_HERO_NOT_FOUND_MESSAGE)
 
     if not registered_user:
-        await update.message.reply_markdown_v2(constants.USER_NOT_REGISTERED_MESSAGE)
+        update.message.reply_markdown_v2(constants.USER_NOT_REGISTERED_MESSAGE)
 
     if "hero_id" in locals():
         response, status_code = endpoints.get_player_matches_by_hero_id(
@@ -42,7 +42,7 @@ async def run_last_match_command(update, context):
         )
 
     if status_code != constants.HTTP_STATUS_CODES.OK.value:
-        await update.message.reply_text(constants.BAD_RESPONSE_MESSAGE)
+        update.message.reply_text(constants.BAD_RESPONSE_MESSAGE)
 
     try:
         output_message = match_helpers.create_match_message(response[0])
@@ -59,20 +59,20 @@ async def run_last_match_command(update, context):
             url=("https://stratz.com/matches/" + str(response[0]["match_id"])),
         )
         markup = InlineKeyboardMarkup.from_button(button)
-        await update.message.reply_photo(photo=img_bytes, caption=output_message, reply_markup=markup)
+        update.message.reply_photo(photo=img_bytes, caption=output_message, reply_markup=markup)
 
     except IndexError:
-        await update.message.reply_markdown_v2(
+        update.message.reply_markdown_v2(
             "I could not find a match by those criteria, sorry\!"
         )
 
 
-async def run_get_match_by_match_id(update, context):
+def run_get_match_by_match_id(update, context):
     try:
         match_id = context.args[0]
         match_id = int(match_id)
     except (IndexError, ValueError):
-        await update.message.reply_markdown_v2(
+        update.message.reply_markdown_v2(
             "That isn't a match ID\. Use `/match <match id here>`"
         )
         return
@@ -80,11 +80,11 @@ async def run_get_match_by_match_id(update, context):
     response, status_code = endpoints.get_match_by_id(match_id)
 
     if status_code != constants.HTTP_STATUS_CODES.OK.value:
-        await update.message.reply_text(constants.BAD_RESPONSE_MESSAGE)
+        update.message.reply_text(constants.BAD_RESPONSE_MESSAGE)
 
     output_message = match_helpers.create_match_detail_message(response)
 
     markup = create_inline_keyboard(match_id)
-    await update.message.reply_markdown_v2(
+    update.message.reply_markdown_v2(
         output_message, reply_markup=markup, disable_web_page_preview=True
     )

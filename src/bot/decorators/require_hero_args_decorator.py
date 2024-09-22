@@ -11,9 +11,9 @@ def require_hero_args(func):
     """
 
     @wraps(func)
-    async def inner(update, context):
+    def inner(update, context):
         if not context.args:
-            await update.message.reply_markdown_v2(constants.MISSING_HERO_ARGUMENT_MESSAGE)
+            update.message.reply_markdown_v2(constants.MISSING_HERO_ARGUMENT_MESSAGE)
             return
 
         hero_name_parts = context.args
@@ -29,7 +29,7 @@ def require_hero_args(func):
                 hero = hero_services.get_hero_by_id(hero_alias.hero_id)
 
         if not hero:
-            await update.message.reply_markdown_v2(
+            update.message.reply_markdown_v2(
                 constants.HERO_NOT_FOUND_MESSAGE % hero_name
             )
 

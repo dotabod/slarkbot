@@ -1,7 +1,7 @@
 import re
 
 
-async def say_nice(update, context):
+def say_nice(update, context):
     text = update.message.text
 
     match = re.search(
@@ -11,4 +11,4 @@ async def say_nice(update, context):
     )
 
     if match:
-        await update.message.reply_text("nice")
+        update.message.reply_text("nice")
