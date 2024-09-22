@@ -3,7 +3,7 @@ from src.bot.services import user_services
 from src import constants
 
 
-def require_register(func):
+async def require_register(func):
     """
     A decorator that checks if a user is registered or a registered
     user was given as an argument. Fails if a user was not given and
@@ -11,7 +11,7 @@ def require_register(func):
     """
 
     @wraps(func)
-    async def inner(update, context):
+    def inner(update, context):
         try:
             telegram_handle = context.args[0]
         except (IndexError, ValueError):
