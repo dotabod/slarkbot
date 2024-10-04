@@ -5,12 +5,10 @@ engine = None
 
 
 def create_session():
+    global engine  # Declare engine as global to modify the module-level variable
 
     # TODO: this is a hack, want engine singleton but its python ..
-    try:
-        if not engine:
-            engine = create_database_engine()
-    except UnboundLocalError:
+    if engine is None:
         engine = create_database_engine()
 
     session = sessionmaker()
