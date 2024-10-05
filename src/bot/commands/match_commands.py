@@ -10,7 +10,6 @@ from telegram import InlineKeyboardMarkup, InlineKeyboardButton
 from src.bot.callback_handlers.match_callbacks import create_inline_keyboard
 from src.bot.decorators.require_registered_user_decorator import require_register
 
-
 async def run_last_match_command(update, context):
     registered_user = user_services.lookup_user_by_telegram_handle(
         update.message.from_user.username
