@@ -27,9 +27,11 @@ async def run_last_match_command(update, context):
         hero_id = helpers.get_hero_id_by_name_or_alias(hero_name)
         if not hero_id:
             await update.message.reply_markdown_v2(constants.USER_OR_HERO_NOT_FOUND_MESSAGE)
+            return
 
     if not registered_user:
         await update.message.reply_markdown_v2(constants.USER_NOT_REGISTERED_MESSAGE)
+        return
 
     if "hero_id" in locals():
         response, status_code = endpoints.get_player_matches_by_hero_id(
@@ -42,6 +44,7 @@ async def run_last_match_command(update, context):
 
     if status_code != constants.HTTP_STATUS_CODES.OK.value:
         await update.message.reply_text(constants.BAD_RESPONSE_MESSAGE)
+        return
 
     try:
         output_message = match_helpers.create_match_message(response[0])
@@ -60,7 +63,7 @@ async def run_last_match_command(update, context):
         markup = InlineKeyboardMarkup.from_button(button)
         await update.message.reply_photo(photo=img_bytes, caption=output_message, reply_markup=markup)
 
-    except IndexError:
+    except (IndexError, KeyError):
         await update.message.reply_markdown_v2(
             "I could not find a match by those criteria, sorry\!"
         )
