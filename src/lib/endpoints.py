@@ -1,5 +1,8 @@
+import logging
 from . import request
 from src.constants import API_URI_ENDPOINTS
+
+logger = logging.getLogger(__name__)
 
 
 def get_health_check():
@@ -31,14 +34,26 @@ def get_player_by_account_id(id):
 
 def get_player_recent_matches_by_account_id(id):
     uri = API_URI_ENDPOINTS.PLAYER_RECENTS_BY_ACCOUNT_ID.value % id
+    logger.debug(f"Getting recent matches for account_id={id}, uri={uri}")
     response = request.make_request(uri)
-    return response.json(), response.status_code
+    try:
+        response_json = response.json()
+    except Exception as e:
+        logger.error(f"Failed to parse JSON response for account_id={id}: {e}, status_code={response.status_code}, response_text={response.text[:500]}")
+        return {"error": "Failed to parse response"}, response.status_code
+    return response_json, response.status_code
 
 
 def get_player_matches_by_hero_id(id, hero_id):
     uri = API_URI_ENDPOINTS.PLAYER_MATCHES_BY_HERO.value % (id, hero_id)
+    logger.debug(f"Getting matches for account_id={id}, hero_id={hero_id}, uri={uri}")
     response = request.make_request(uri)
-    return response.json(), response.status_code
+    try:
+        response_json = response.json()
+    except Exception as e:
+        logger.error(f"Failed to parse JSON response for account_id={id}, hero_id={hero_id}: {e}, status_code={response.status_code}, response_text={response.text[:500]}")
+        return {"error": "Failed to parse response"}, response.status_code
+    return response_json, response.status_code
 
 
 def get_hero_stats():

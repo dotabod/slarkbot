@@ -5,18 +5,20 @@ import logging
 DEFAULT_LOG_LEVEL = "debug"
 
 
-USER_NOT_REGISTERED_MESSAGE = "I couldn't find that Telegram username\! Please make sure to register your friend ID using `/register <your friend ID>`"
+USER_NOT_REGISTERED_MESSAGE = r"I couldn't find that Telegram username\! Please make sure to register your friend ID using `/register <your friend ID>`"
 
 BAD_RESPONSE_MESSAGE = "Something went wrong, I didn't get a good response :("
 
-MISSING_HERO_ARGUMENT_MESSAGE = "No arguments were given\! Make sure to send a hero name after the command\. Use /help for help"
+ACCOUNT_NOT_FOUND_MESSAGE = r"I couldn't find any matches for this account\. This usually means either:" + "\n• The account doesn't exist in OpenDota\n• Your match data isn't exposed or synced to OpenDota\n\n" + r"Try using `/matchdata` for instructions on how to expose and sync your match data\."
+
+MISSING_HERO_ARGUMENT_MESSAGE = r"No arguments were given\! Make sure to send a hero name after the command\. Use /help for help"
 
 HERO_NOT_FOUND_MESSAGE = "I couldn't find a hero by the name %s D:"
 
-USER_OR_HERO_NOT_FOUND_MESSAGE = "I don't understand which hero you mean, sorry\! If you tried to tag a user, they may not be registered\."
+USER_OR_HERO_NOT_FOUND_MESSAGE = r"I don't understand which hero you mean, sorry\! If you tried to tag a user, they may not be registered\."
 
 
-HELP_TEXT = """
+HELP_TEXT = r"""
     *Commands*
     `\/register <your id here>` :: Register your telegram handle to your steam id to use other commands\. Examples: `\/register 55678920`, `\/register tradeless`, `\/register https:\/\/steamcommunity\.com\/profiles\/76561198073221358`\n
     `\/help` :: Display this help message\n
@@ -27,12 +29,12 @@ HELP_TEXT = """
     `\/winrate <user:optional> <hero name>` :: Gets your or someone else's winrate with the given hero\. User must be registered for this to work\n
     """
 
-EXPOSE_DATA_TEXT_PART_ONE = "If you have registered with pudgebot but your matches are not showing up, check whether your match data is exposed and whether Opendota has synced up\. To do this, follow these steps:"
-EXPOSE_DATA_TEXT_PART_TWO = """
+EXPOSE_DATA_TEXT_PART_ONE = r"If you have registered with pudgebot but your matches are not showing up, check whether your match data is exposed and whether Opendota has synced up\. To do this, follow these steps:"
+EXPOSE_DATA_TEXT_PART_TWO = r"""
 *Step one:* Expose your match data in Dota\'s settings, under Social\.\n
 *Step two:* Go to opendota\.com in your browser and log in with your Steam account\.
 """
-EXPOSE_DATA_TEXT_PART_THREE = """
+EXPOSE_DATA_TEXT_PART_THREE = r"""
 *Step three:* On your Opendota profile, click the \"Refresh\" button at the top of the page\. This will make Opendota index all the games it missed from when your match data was set to private\.\n\n
 It can sometimes take a while for Opendota to go over all your games, especially if other people are refreshing their history as well\. If it does not work right away, try again in ten minutes\!
 """
@@ -116,6 +118,10 @@ ENVIRONMENT_VARIABLES_CONFIG = {
     "DATABASE_PORT": {
         "required": False,
         "description": "Port to use for dockerized postgres container. Defaults to 5432",
+    },
+    "DISABLE_SSL_VERIFY": {
+        "required": False,
+        "description": "Disable SSL certificate verification. Set to 'true' to disable. Defaults to false",
     },
 }
 
